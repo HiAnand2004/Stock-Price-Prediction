@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family:
+          Inter,
+          -apple-system,
+          Roboto,
+          Helvetica,
+          sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.6;
+        background-color: #f5f7fa;
+        color: #333;
+      }
+
+      .registration-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 40px;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .registration-container {
+          padding: 30px 20px;
+          margin: 20px;
+        }
+      }
+
+      .registration-heading {
+        color: #2c3e50;
+        font-size: 28px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #2c3e50;
+      }
+
+      .form-input {
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 1);
+        border: 1px solid #ddd;
+        display: flex;
+        height: 48px;
+        width: 100%;
+        padding: 12px 16px;
+        font-family: inherit;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+      }
+
+      .password-wrapper {
+        position: relative;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        opacity: 0.6;
+        transition: opacity 0.2s ease;
+      }
+
+      .password-toggle:hover {
+        opacity: 1;
+      }
+
+      .terms-agreement {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 10px 0;
+      }
+
+      .terms-agreement input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #2c3e50;
+      }
+
+      .register-button {
+        border-radius: 8px;
+        background-color: #2c3e50;
+        color: white;
+        border: none;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+      }
+
+      .register-button:hover {
+        background-color: #1a252f;
+      }
+
+      .login-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 24px;
+        color: #2c3e50;
+      }
+
+      .login-link {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
+
+      .login-link:hover {
+        color: #2980b9;
+        text-decoration: underline;
+      }
+
+      .error-message {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 6px;
+      }
+
+      .form-input.error {
+        border-color: #e74c3c;
+      }
+
+      .form-input.error:focus {
+        box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+      }
+
+      /* New email validation styles */
+      .email-hint {
+        font-size: 12px;
+        margin-top: 4px;
+      }
+      .email-valid {
+        color: #28a745;
+      }
+      .email-invalid {
+        color: #e74c3c;
+      }
+      .email-neutral {
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="registration-container">
+      <h1 class="registration-heading">
+        Create Your Account
+      </h1>
+
+      <form method="post" id="registrationForm">
+        {% csrf_token %}
+        
+        <div class="form-group">
+          <label for="id_full_name" class="form-label">Full Name</label>
+          {{ form.full_name }}
+          {% if form.full_name.errors %}
+            <div class="error-message">{{ form.full_name.errors }}</div>
+          {% endif %}
+        </div>
+      
+        <div class="form-group">
+          <label for="id_email" class="form-label">Email</label>
+          {{ form.email }}
+          <div id="emailHint" class="email-hint email-neutral">
+            We'll send a verification link to this email
+          </div>
+          {% if form.email.errors %}
+            <div class="error-message">
+              {% for error in form.email.errors %}
+                {{ error }}<br>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_password1" class="form-label">Password</label>
+          <div class="password-wrapper">
+            {{ form.password1 }}
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/86a8143b01662cca61612a3d1e9a8749fc9c29bc?placeholderIfAbsent=true&apiKey=2b65c876d7c044d69206b93fbc59d5ce"
+              alt="Show password"
+              class="password-toggle"
+            />
+          </div>
+          {% if form.password1.errors %}
+             <div class="error-message">{{ form.password1.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_password2" class="form-label">Confirm Password</label>
+          <div class="password-wrapper">
+            {{ form.password2 }}
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/2ec350f4e5450f767895c98ead81a4a4e87dac29?placeholderIfAbsent=true&apiKey=2b65c876d7c044d69206b93fbc59d5ce"
+              alt="Show password"
+              class="password-toggle"
+            />
+          </div>
+          {% if form.password2.errors %}
+           <div class="error-message">{{ form.password2.errors }}</div>
+           {% endif %}
+        </div>
+
+        <div class="terms-agreement">
+          <input type="checkbox" id="terms" required />
+          <label for="terms">I agree to the Terms & Conditions</label>
+        </div>
+
+        <button type="submit" class="register-button">Create Account</button>
+      </form>
+
+      <div class="login-section">
+        <p>Already have an account?</p>
+        <a href="{% url 'login' %}" class="login-link">Sign In</a>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Password toggle functionality
+        const toggleButtons = document.querySelectorAll('.password-toggle');
+        
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const passwordInput = this.closest('.password-wrapper').querySelector('input');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    this.src = this.src.replace('eye-off', 'eye-on');
+                } else {
+                    passwordInput.type = 'password';
+                    this.src = this.src.replace('eye-on', 'eye-off');
+                }
+            });
+        });
+
+        // Real-time password matching check
+        const password1 = document.getElementById('id_password1');
+        const password2 = document.getElementById('id_password2');
+        
+        function checkPasswords() {
+            if (password1.value && password2.value && password1.value !== password2.value) {
+                password2.classList.add('error');
+            } else {
+                password2.classList.remove('error');
+            }
+        }
+        
+        password1.addEventListener('input', checkPasswords);
+        password2.addEventListener('input', checkPasswords);
+
+        // Email validation
+        const emailInput = document.getElementById('id_email');
+        const emailHint = document.getElementById('emailHint');
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        
+        emailInput.addEventListener('input', function() {
+            const email = emailInput.value.trim();
+            
+            if (email.length === 0) {
+                emailHint.textContent = "We'll send a verification link to this email";
+                emailHint.className = "email-hint email-neutral";
+                emailInput.classList.remove('error');
+                return;
+            }
+            
+            if (emailRegex.test(email)) {
+                emailInput.classList.remove('error');
+                emailHint.textContent = "✓ Valid email format";
+                emailHint.className = "email-hint email-valid";
+            } else {
+                emailInput.classList.add('error');
+                emailHint.textContent = "✗ Invalid email format (example: user@example.com)";
+                emailHint.className = "email-hint email-invalid";
+            }
+        });
+        
+        // Form submission validation
+        const form = document.getElementById('registrationForm');
+        form.addEventListener('submit', function(e) {
+            const email = emailInput.value.trim();
+            
+            if (!emailRegex.test(email)) {
+                e.preventDefault();
+                emailInput.classList.add('error');
+                emailHint.textContent = "Please fix your email before submitting";
+                emailHint.className = "email-hint email-invalid";
+                emailInput.focus();
+            }
+        });
+      });
+    </script>
+  </body>
+</html>

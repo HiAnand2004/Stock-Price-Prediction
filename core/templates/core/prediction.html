@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow-md p-8 max-w-2xl mx-auto">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Stock Price Prediction Results for NSE Index</h2>
+
+    {% if error %}
+        <div class="text-center p-6 bg-red-50 rounded-lg border border-red-200 text-red-700 mb-4">
+            <p class="text-lg font-medium">{{ error }}</p>
+        </div>
+    {% endif %}
+
+    {% if predictions %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div class="p-6 bg-blue-50 rounded-lg border border-blue-200">
+                <h3 class="text-xl font-semibold text-blue-700 mb-2">LSTM Prediction</h3>
+                <p class="text-3xl font-extrabold text-blue-900">{{ predictions.lstm }}</p>
+                <p class="text-sm text-gray-500 mt-1">Next Day's Close</p>
+            </div>
+            <div class="p-6 bg-green-50 rounded-lg border border-green-200">
+                <h3 class="text-xl font-semibold text-green-700 mb-2">GRU Prediction</h3>
+                <p class="text-3xl font-extrabold text-green-900">{{ predictions.gru }}</p>
+                <p class="text-sm text-gray-500 mt-1">Next Day's Close</p>
+            </div>
+            <div class="p-6 bg-purple-50 rounded-lg border border-purple-200">
+                <h3 class="text-xl font-semibold text-purple-700 mb-2">XGBoost Prediction</h3>
+                <p class="text-3xl font-extrabold text-purple-900">
+                    {% if predictions.xgboost %}
+                        {{ predictions.xgboost }}
+                    {% else %}
+                        Not available
+                    {% endif %}
+                </p>
+                <p class="text-sm text-gray-500 mt-1">Next Day's Close</p>
+            </div>
+        </div>
+        <p class="text-center text-gray-600 mt-8 text-sm">
+            Note: These predictions are based on historical data and sentiment analysis.
+            Stock prices are highly volatile and actual results may vary.
+        </p>
+    {% else %}
+        <div class="text-center p-6 bg-yellow-50 rounded-lg border border-yellow-200 text-yellow-700">
+            <p class="text-lg font-medium">No predictions available. Please ensure models are trained and data is collected.</p>
+        </div>
+    {% endif %}
+
+    <div class="mt-8 text-center">
+        <a href="{% url 'dashboard' %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+            <i class="ti ti-arrow-left mr-2"></i> Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

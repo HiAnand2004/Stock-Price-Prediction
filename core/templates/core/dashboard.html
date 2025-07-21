@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="text-center py-12 bg-white rounded-lg shadow-md">
+    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Welcome, {{ user.username }}!</h2>
+    <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+        This is your personalized dashboard. Explore the prediction features and visualize market trends.
+    </p>
+    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+        <a href="{% url 'predict' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-md">
+            Get Predictions <i class="ti ti-chart-line ml-2"></i>
+        </a>
+        <a href="{% url 'visualize' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-md">
+            View Visualizations <i class="ti ti-chart-bar ml-2"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}
