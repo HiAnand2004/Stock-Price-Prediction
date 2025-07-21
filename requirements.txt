@@ -1,0 +1,17 @@
+Django>=4.0
+djangorestframework
+yfinance
+pandas
+numpy
+scikit-learn
+xgboost
+tensorflow
+keras
+joblib
+requests
+newspaper3k
+textblob
+vaderSentiment
+python-dotenv
+gunicorn
+matplotlib
